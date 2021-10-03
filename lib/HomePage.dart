@@ -1,5 +1,8 @@
 // ignore_for_file: file_names, prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'SignInPage.dart';
 
 class HomePage extends StatefulWidget {
   String? email;
@@ -11,6 +14,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  checkAuthentication() async {
+    _auth.authStateChanges().listen((event) {
+      if (event == null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SignIn()));
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkAuthentication();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

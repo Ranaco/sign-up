@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'SignupPage.dart';
+import 'HomePage.dart';
+import 'SignInPage.dart';
+import 'SignUpPage.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 main() async {
@@ -16,9 +18,12 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Signup',
-      home: SignupPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Signup',
+        home: SignIn(),
+        routes: {
+          '/HomePage': (BuildContext context) => HomePage(),
+          '/SignIn': (BuildContext context) => SignIn(),
+        });
   }
 }
