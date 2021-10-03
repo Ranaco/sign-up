@@ -1,4 +1,4 @@
-package com.example.signup
+package com.astara.signup
 
 import io.flutter.embedding.android.FlutterActivity
 

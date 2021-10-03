@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "186742302555",
+    "project_id": "astara-first-project",
+    "storage_bucket": "astara-first-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186742302555:android:26e1f5b03dcb94e8659c7e",
+        "android_client_info": {
+          "package_name": "com.astara.signup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186742302555-o72fjh027s9skodl54vp1v4nt14rsmuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxtwuqxvU90f4ug7SgJLsBkvhCHkcDuhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186742302555-o72fjh027s9skodl54vp1v4nt14rsmuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

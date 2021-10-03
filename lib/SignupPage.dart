@@ -65,7 +65,7 @@ class _SignupPageState extends State<SignupPage> {
                     title: TextFormField(
                       validator: (email) {
                         if (email!.isEmpty) {
-                          return 'Enter your name';
+                          return 'Email is incorrect';
                         }
                       },
                       decoration: InputDecoration(
@@ -95,6 +95,7 @@ class _SignupPageState extends State<SignupPage> {
                       onSaved: (password) {
                         _password = password!;
                       },
+                      obscureText: true,
                     ),
                   ),
                   SizedBox(
