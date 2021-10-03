@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "186742302555",
-    "project_id": "astara-first-project",
-    "storage_bucket": "astara-first-project.appspot.com"
+    "project_number": "518380413327",
+    "project_id": "fir-first-5e138",
+    "storage_bucket": "fir-first-5e138.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:186742302555:android:26e1f5b03dcb94e8659c7e",
+        "mobilesdk_app_id": "1:518380413327:android:9d648270c1808718f0ebfa",
         "android_client_info": {
           "package_name": "com.astara.signup"
         }
       },
       "oauth_client": [
         {
-          "client_id": "186742302555-o72fjh027s9skodl54vp1v4nt14rsmuf.apps.googleusercontent.com",
+          "client_id": "518380413327-n22f50d7ul31tn1kpg4i1ou3pftej0qn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDxtwuqxvU90f4ug7SgJLsBkvhCHkcDuhI"
+          "current_key": "AIzaSyDwfAxSJXBYB7L5reKQww8S5fcgK8JF5Xo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "186742302555-o72fjh027s9skodl54vp1v4nt14rsmuf.apps.googleusercontent.com",
+              "client_id": "518380413327-n22f50d7ul31tn1kpg4i1ou3pftej0qn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

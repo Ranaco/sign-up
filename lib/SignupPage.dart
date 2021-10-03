@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:signup/HomePage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
@@ -13,12 +15,27 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   GlobalKey<FormState> _key = GlobalKey<FormState>();
   var _autovalidate = AutovalidateMode.disabled;
+  FirebaseAuth auth = FirebaseAuth.instance;
   String _email = "";
   String _password = "";
-  String url = "";
-  String phonenumber = "";
-  String calories = "";
-  String name = "";
+
+  checkAuthentication() async {
+    auth.authStateChanges().listen((event) {
+      if (event != null) {
+        Navigator.pushNamed(context, "/");
+      }
+    });
+  }
+
+  login() {
+    if (_key.currentState!.validate()) {}
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.checkAuthentication();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +81,7 @@ class _SignupPageState extends State<SignupPage> {
                     leading: Icon(Icons.person),
                     title: TextFormField(
                       validator: (email) {
-                        if (email!.isEmpty) {
+                        if (email!.isEmpty || email.length < 6) {
                           return 'Email is incorrect';
                         }
                       },
@@ -88,7 +105,7 @@ class _SignupPageState extends State<SignupPage> {
                         labelText: 'Password',
                       ),
                       validator: (password) {
-                        if (password!.isEmpty) {
+                        if (password!.isEmpty || password.length < 6) {
                           return "Enter Password";
                         }
                       },

@@ -2,8 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'SignupPage.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(SignUp());
 }
 
