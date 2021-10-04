@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:signup/HomePage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'SignUpPage.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -18,10 +19,7 @@ class _SignInState extends State<SignIn> {
   //Keys and FirebaseAuth;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  //Text Editing controllers
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  //
+  //Firebase auth instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
   // auto validating state;
   var _autoValidate;
@@ -43,15 +41,6 @@ class _SignInState extends State<SignIn> {
   initState() {
     super.initState();
     this.checkAuthentication();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
-
-  @override
-  dispose() {
-    super.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
   }
 
   login() async {
@@ -123,7 +112,6 @@ class _SignInState extends State<SignIn> {
                 ListTile(
                   leading: Icon(Icons.person),
                   title: TextFormField(
-                    controller: _emailController,
                     validator: (email) {
                       if (email!.isEmpty || email.length < 6) {
                         return "Email is incorrect";
@@ -144,7 +132,6 @@ class _SignInState extends State<SignIn> {
                 ListTile(
                   leading: Icon(Icons.password),
                   title: TextFormField(
-                    controller: _passwordController,
                     validator: (password) {
                       if (password!.isEmpty || password.length < 6) {
                         return "The password should be atleast 6 characters long";
@@ -177,6 +164,29 @@ class _SignInState extends State<SignIn> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(30)))),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Don't have an account?"),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    GestureDetector(
+                        onTap: _takeToSignUp,
+                        child: Container(
+                          child: Text(
+                            'Sign Up!',
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                        ))
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           )),
@@ -190,16 +200,21 @@ class _SignInState extends State<SignIn> {
       _formKey.currentState!.save();
       await _auth
           .signInWithEmailAndPassword(email: _email, password: _password)
-          .then((uid) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return HomePage(
-            email: _email,
-            password: _password,
-          );
-        }));
+          .then((uid) => {
+                Fluttertoast.showToast(msg: "login successful"),
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => HomePage()))
+              })
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
       });
     } else {
       _autoValidate = AutovalidateMode.always;
     }
+  }
+
+  _takeToSignUp() async {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SignUpPage()));
   }
 }

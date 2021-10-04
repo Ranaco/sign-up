@@ -103,30 +103,23 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 40,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Name :  " + widget.email,
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Password : ' + widget.password,
-                        style: TextStyle(fontSize: 20)),
-                  ],
-                ),
               ],
             ),
           )
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 20,
+        onPressed: _logOut,
+        label: Text('LogOut'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  _logOut() async {
+    await _auth.signOut();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => SignIn()));
   }
 }
