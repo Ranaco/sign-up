@@ -1,29 +1,57 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'HomePage.dart';
-import 'SignInPage.dart';
-import 'SignUpPage.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'SignInPage.dart';
 
 main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(SignUp());
+  runApp(MyApp());
 }
 
-class SignUp extends StatelessWidget {
-  const SignUp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Signup',
-        home: SignIn(),
-        routes: {
-          '/HomePage': (BuildContext context) => HomePage(),
-          '/SignIn': (BuildContext context) => SignIn(),
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: Firebase.initializeApp(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Error();
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            return SignIn();
+          } else {
+            return CircularProgressIndicator();
+          }
         });
+  }
+}
+
+class Error extends StatelessWidget {
+  const Error({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text('Error'),
+      ),
+    );
   }
 }

@@ -1,9 +1,11 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:signup/HomePage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -15,6 +17,11 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   //Keys and FirebaseAuth;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  //Text Editing controllers
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  //
   FirebaseAuth _auth = FirebaseAuth.instance;
   // auto validating state;
   var _autoValidate;
@@ -23,7 +30,7 @@ class _SignInState extends State<SignIn> {
   String _password = "";
 
   checkAuthentication() async {
-    _auth.authStateChanges().listen((event) {
+    _auth.authStateChanges().listen((User? event) {
       if (event != null) {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return HomePage();
@@ -36,10 +43,47 @@ class _SignInState extends State<SignIn> {
   initState() {
     super.initState();
     this.checkAuthentication();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
   }
 
-  login() {
-    if (_formKey.currentState!.validate()) {}
+  @override
+  dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  login() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      try {
+        // ignore: unused_local_variable
+        UserCredential user = await _auth.signInWithEmailAndPassword(
+            email: _email, password: _password);
+      } catch (e) {
+        showError('The User is not registered. Try again.');
+      }
+    }
+  }
+
+  showError(String errorMessage) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(errorMessage),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(''),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -61,6 +105,7 @@ class _SignInState extends State<SignIn> {
         child: Center(
           child: SingleChildScrollView(
               child: Card(
+            elevation: 20,
             child: Column(
               children: <Widget>[
                 Container(
@@ -78,6 +123,7 @@ class _SignInState extends State<SignIn> {
                 ListTile(
                   leading: Icon(Icons.person),
                   title: TextFormField(
+                    controller: _emailController,
                     validator: (email) {
                       if (email!.isEmpty || email.length < 6) {
                         return "Email is incorrect";
@@ -87,8 +133,8 @@ class _SignInState extends State<SignIn> {
                       hintText: 'Enter your email',
                       labelText: "Email",
                     ),
-                    onSaved: (email) {
-                      _email = email!;
+                    onChanged: (email) {
+                      _email = email;
                     },
                   ),
                 ),
@@ -98,13 +144,14 @@ class _SignInState extends State<SignIn> {
                 ListTile(
                   leading: Icon(Icons.password),
                   title: TextFormField(
+                    controller: _passwordController,
                     validator: (password) {
                       if (password!.isEmpty || password.length < 6) {
                         return "The password should be atleast 6 characters long";
                       }
                     },
-                    onSaved: (password) {
-                      _password = password!;
+                    onChanged: (password) {
+                      _password = password;
                     },
                     decoration: InputDecoration(
                         hintText: 'Password', labelText: 'Password'),
@@ -115,7 +162,11 @@ class _SignInState extends State<SignIn> {
                   height: 50,
                 ),
                 ElevatedButton(
-                  onPressed: _TakeToNextScreen,
+                  onPressed: () {
+                    print(_email + " " + _password);
+
+                    _TakeToNextScreen();
+                  },
                   child: Text(
                     'Sign In',
                     style: TextStyle(color: Colors.black),
@@ -134,15 +185,19 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  _TakeToNextScreen() {
+  _TakeToNextScreen() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomePage(
-          email: _email,
-          password: _password,
-        );
-      }));
+      await _auth
+          .signInWithEmailAndPassword(email: _email, password: _password)
+          .then((uid) {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return HomePage(
+            email: _email,
+            password: _password,
+          );
+        }));
+      });
     } else {
       _autoValidate = AutovalidateMode.always;
     }

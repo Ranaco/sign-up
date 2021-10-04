@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'SignInPage.dart';
 
 class HomePage extends StatefulWidget {
-  String? email;
-  String? password;
-  HomePage({Key? key, this.email, this.password}) : super(key: key);
+  String email;
+  String password;
+  HomePage({Key? key, this.email = '', this.password = ''}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -25,11 +25,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    checkAuthentication();
+  getUser() async {
+    User user = await FirebaseAuth.instance.currentUser!;
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   checkAuthentication();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Name :  " + widget.email!,
+                      "Name :  " + widget.email,
                       style: TextStyle(fontSize: 20),
                     )
                   ],
@@ -114,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Password : ' + widget.password!,
+                    Text('Password : ' + widget.password,
                         style: TextStyle(fontSize: 20)),
                   ],
                 ),
