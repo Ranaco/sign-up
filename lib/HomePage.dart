@@ -1,6 +1,5 @@
 // ignore_for_file: file_names, prefer_const_constructors, must_be_immutable, prefer_const_literals_to_create_immutables
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'SignInPage.dart';
 
@@ -23,10 +22,6 @@ class _HomePageState extends State<HomePage> {
             context, MaterialPageRoute(builder: (context) => SignIn()));
       }
     });
-  }
-
-  getUser() async {
-    User user = await FirebaseAuth.instance.currentUser!;
   }
 
   // @override

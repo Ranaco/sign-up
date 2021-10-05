@@ -1,9 +1,7 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_final_fields, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:signup/HomePage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'SignUpPage.dart';
@@ -66,7 +64,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'SingUp',
+          'Sign In',
           style: TextStyle(
               color: Colors.black, fontSize: 25, fontWeight: FontWeight.w500),
         ),

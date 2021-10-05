@@ -30,6 +30,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
+        // Honestly, I don't think this is needed for future projects.
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
