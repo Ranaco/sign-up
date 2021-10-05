@@ -15,6 +15,7 @@ class _SignUpPageState extends State<SignUpPage> {
   String _email = "";
   String _password = "";
   String _confPassword = "";
+  TextEditingController _confPass = TextEditingController();
   //A global key for the form;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //Creating the firebase instance;
@@ -57,6 +58,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Card(
                   child: Column(
                     children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                      ),
                       Container(
                         height: 250,
                         decoration: BoxDecoration(
@@ -98,6 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           obscureText: true,
                           onChanged: (password) {
                             _password = password;
+                            _confPass.text = password;
                           },
                         ),
                       ),
@@ -112,8 +117,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             labelText: 'Confirm Password',
                           ),
                           obscureText: true,
-                          validator: (password) {
-                            if (password!.length < 6 && password != _password) {
+                          validator: (cpassword) {
+                            if (cpassword != _password ||
+                                _confPass.text != cpassword) {
                               return 'Passwords do not match';
                             }
                           },
@@ -132,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           _confirmSignUp()();
                         },
                         child: Text(
-                          'Sign In',
+                          'Sign Up',
                           style: TextStyle(color: Colors.black),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -141,6 +147,9 @@ class _SignUpPageState extends State<SignUpPage> {
                             shape: RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(30)))),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),

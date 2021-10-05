@@ -50,7 +50,15 @@ class Error extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text('Error'),
+        child: Column(
+          children: [
+            Icon(
+              Icons.error,
+              size: 50,
+            ),
+            Text('Error'),
+          ],
+        ),
       ),
     );
   }

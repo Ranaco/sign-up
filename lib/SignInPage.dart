@@ -19,7 +19,6 @@ class _SignInState extends State<SignIn> {
   //Keys and FirebaseAuth;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  //Firebase auth instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
   // auto validating state;
   var _autoValidate;
@@ -41,19 +40,6 @@ class _SignInState extends State<SignIn> {
   initState() {
     super.initState();
     this.checkAuthentication();
-  }
-
-  login() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      try {
-        // ignore: unused_local_variable
-        UserCredential user = await _auth.signInWithEmailAndPassword(
-            email: _email, password: _password);
-      } catch (e) {
-        showError('The User is not registered. Try again.');
-      }
-    }
   }
 
   showError(String errorMessage) {
@@ -97,6 +83,9 @@ class _SignInState extends State<SignIn> {
             elevation: 20,
             child: Column(
               children: <Widget>[
+                SizedBox(
+                  height: 20,
+                ),
                 Container(
                   height: 200,
                   decoration: BoxDecoration(
@@ -134,7 +123,7 @@ class _SignInState extends State<SignIn> {
                   title: TextFormField(
                     validator: (password) {
                       if (password!.isEmpty || password.length < 6) {
-                        return "The password should be atleast 6 characters long";
+                        return "Incorrect password";
                       }
                     },
                     onChanged: (password) {
@@ -206,7 +195,7 @@ class _SignInState extends State<SignIn> {
                     MaterialPageRoute(builder: (context) => HomePage()))
               })
           .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
+        Fluttertoast.showToast(msg: 'The account is not registered.');
       });
     } else {
       _autoValidate = AutovalidateMode.always;
